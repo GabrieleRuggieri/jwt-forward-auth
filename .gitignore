@@ -1,0 +1,74 @@
+# ===================================================================
+#  Ambiente Locale e Variabili Sensibili
+# ===================================================================
+# MAI committare il file .env che contiene i segreti!
+# L'esempio (.env.example) invece VA committato.
+.env
+
+# ===================================================================
+#  Artefatti di Build e Binari di Go
+# ===================================================================
+# Ignora i binari compilati. Il nostro si chiama 'server', ma includiamo
+# anche pattern generici.
+server
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Ignora il binario se viene compilato localmente con il nome del modulo
+jwt-forward-auth
+sentinel
+
+# ===================================================================
+#  Cache e Risultati dei Test di Go
+# ===================================================================
+# Ignora i risultati dei test e i file di profiling/coverage
+*.test
+*.out
+coverage.*
+profile.*
+
+# ===================================================================
+#  Dipendenze (Stile pre-Go Modules)
+# ===================================================================
+# Anche se usiamo Go Modules, è buona norma ignorare la cartella 'vendor'.
+vendor/
+
+# ===================================================================
+#  File e Cartelle di IDE ed Editor
+# ===================================================================
+# JetBrains (GoLand, IntelliJ)
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+
+# ===================================================================
+#  File Generati dal Sistema Operativo
+# ===================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===================================================================
+#  Log Files
+# ===================================================================
+# Ignora qualsiasi file di log
+*.log
+*.log.*

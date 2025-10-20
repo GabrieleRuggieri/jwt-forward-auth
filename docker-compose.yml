@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  traefik:
+    image: traefik:v3.0
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"       # Porta per il traffico web
+      - "8080:8080"   # Porta per la dashboard di Traefik
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  auth-service:
+    build: .
+    # NOTA: Assicurati di avere un file .env con le variabili corrette
+    # basate su .env.example
+    env_file:
+      - .env
+    labels:
+      # Definizione del middleware di Forward Authentication
+      - "traefik.http.middlewares.jwt-auth.forwardauth.address=http://auth-service:8080/verify"
+      # Inoltriamo SOLO l'ID utente.
+      - "traefik.http.middlewares.jwt-auth.forwardauth.authResponseHeaders=X-User-ID"
+
+  # Servizio di esempio protetto
+  whoami:
+    image: traefik/whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      # Applica il middleware di autenticazione a questo servizio
+      - "traefik.http.routers.whoami.middlewares=jwt-auth@docker"
